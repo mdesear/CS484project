@@ -19,6 +19,7 @@ public class PhysicsHands : MonoBehaviour
 	
 	Vector3 _previousPosition;
 	Rigidbody _rigidbody;
+	bool _isColliding;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class PhysicsHands : MonoBehaviour
     {
         PIDMovement();
 		PIDRotation();
+		if (_isColliding) HookesLaw();
     }
 	
 	void PIDMovement()
@@ -89,5 +91,15 @@ public class PhysicsHands : MonoBehaviour
 		drag = drag < 0.03f ? 0.03f : drag;
 		_previousPosition = transform.position;
 		return drag; 
+	}
+	
+	void OnCollisionEnter(Collision collider)
+	{
+		_isColliding = true;
+	}
+	
+	void OnCollisionExit(Collision collider)
+	{
+		_isColliding = false;
 	}
 }
